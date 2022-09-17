@@ -8,28 +8,32 @@
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <script type="text/babel">
         const root = document.getElementById("root");
-        let counter = 0;
-        function countUp(){
-            counter += 1;
-            render();
-        }
-        function render() {
-            ReactDOM.render(<Container/>, root);
-        }
-        const Container=()=>(
-            <div>
-                <h3>Total clicks: {counter}</h3>
-                <button onClick = {countUp}>Click me!</button>
-            </div>
+        function App() {
+            const [counter, modifier] = React.useState(0);
+            console.log(data);
+            return (
+                <div>
+                    <h3>Total clicks: {data[0]}</h3>
+                    <button>Click me!</button>
+                </div>
             );
+        }
+            
         /*
-        <#3.0 : state 이해>
-        - 변수 선언해준 뒤, 그냥 JSX안에 {변수명}해주면 사용 가능.
-        - onClick이벤트가 동작되면 UI가 업데이트될 수 있도록 계속 render해줘야함. 그래서 countUp함수에 ReactDom.render 하나 더 해줌.
-        - 위에 적은 내용대로 역할만 나눠서 render함수 만들어서 따로 빼주자.\
-        - 계속 render함수를 호출해야하므로 좋은 방법은 X 
-        - 다음 강의: 데이터가 바뀔 때마다 효율적으로 리렌더링을 발생시킬 방법.
+        <#3.1 : react js가 새로운 컴포넌트를 리렌더링하는 방법>
+        - React.useState()가 [data,function]이 담긴 배열을 만들어주는데, 이때 data는 우리가 지정할 데이터(초기값)고, function은 data를 바꿀 때 사용하는 함수
+        - React.useState() 괄호 안에 들어갈 것이 초기값. 
+
+        - Javascript 문법 line12
+        food[] = {"tamato","potato"};
+        const myFavFood = food[0];
+        const mySecondFood = food[1];
+        
+        위 코드와 아래코드가 동일, 위 처럼 번거롭게 하나하나 해줄 필요가 없음.
+
+        const [myFavFood, mySecondFood] = food;
+
         */ 
-        render();
+        ReactDOM.render(<App/>, root);
     </script>
 </html>
