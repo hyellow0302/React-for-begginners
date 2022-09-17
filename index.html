@@ -9,21 +9,25 @@
     <script type="text/babel">
         const root = document.getElementById("root");
         function App() {
-            const [counter, modifier] = React.useState(0);
-            console.log(data);
+            const [counter, setCounter] = React.useState(0);
+            const onClick = () => {
+            setCounter(counter + 1);
+            console.log(counter);
+           };
             return (
                 <div>
-                    <h3>Total clicks: {data[0]}</h3>
-                    <button>Click me!</button>
+                    <h3>Total clicks: {counter}</h3>
+                    <button onClick={onClick}>Click me!</button>
                 </div>
             );
         }
             
         /*
-        <#3.1 : react js가 새로운 컴포넌트를 리렌더링하는 방법>
+        <#3.2: react js가 새로운 컴포넌트를 리렌더링하는 방법>
         - React.useState()가 [data,function]이 담긴 배열을 만들어주는데, 이때 data는 우리가 지정할 데이터(초기값)고, function은 data를 바꿀 때 사용하는 함수
         - React.useState() 괄호 안에 들어갈 것이 초기값. 
-
+        - function의 이름은 보통 앞에 데이터 name에 setName (set을 붙인 꼴)
+        - setCounter(counter+1); 가지고 계속 리렌더링하고있음.
         - Javascript 문법 line12
         food[] = {"tamato","potato"};
         const myFavFood = food[0];
