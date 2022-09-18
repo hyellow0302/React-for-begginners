@@ -9,15 +9,15 @@
     <script type="text/babel">
         function App() {       
             const [amount, setAmount]=React.useState();
-            const [flipped, setFlipped]=React.useState(false);
+            const [inverted, setInverted]=React.useState(false);
             const onChange = (event) => {
                 setAmount(event.target.value);
             };
             const reset = () => {
                 setAmount(0);
             }
-            const onFlip = () => {
-                setFlipped((current)=>!current);//false<->true로 바꾸는 함수
+            const onInvert = () => {
+                setInverted((current)=>!current);//false<->true로 바꾸는 함수
                 reset();
             };
             return (
@@ -26,29 +26,29 @@
                     <div>
                         <label htmlFor="minutes">Minutes </label>
                         <input 
-                            value={flipped ? amount*60 : amount}
+                            value={inverted ? amount*60 : amount}
                             id="minutes" 
                             placeholder="Minutes" 
                             type="number"
                             //우리는 input값(value)이 바뀔때마다 state를 업데이트하고싶을 때 밑 코드를 사용.
                             onChange={onChange}
-                            disabled={flipped}//disabled{fripped===true}
+                            disabled={inverted}//disabled{fripped===true}
                         />
                     </div>
                     <div>
                         <label htmlFor="hours">Hours </label>
                         <input 
-                            value={flipped ? amount: Math.round(amount/60)} //만약 flipped이 true라면 minute을 보여주고, false라면 뒤에 변환된 값을 보여줌.
+                            value={inverted ? amount: Math.round(amount/60)} //만약 flipped이 true라면 minute을 보여주고, false라면 뒤에 변환된 값을 보여줌.
                             id="hours" 
                             placeholder="Hours" 
                             type="number"
                             onChange={onChange}
-                            disabled={!flipped}//disabled={fripped===false}
+                            disabled={!inverted}//disabled={fripped===false}
                             //만약에 flipped가 false라면 disabled를 해준다.
                         />
                     </div>
                     <button onClick={reset} >Reset</button>
-                    <button onClick={onFlip}>flip</button>
+                    <button onClick={onInvert}>{inverted ? "put hour" : "put min"}</button>
                 </div>
             );
         }
