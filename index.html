@@ -7,120 +7,37 @@
     <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <script type="text/babel">
-        function MinutesToHours() {       
-            const [amount, setAmount]=React.useState();
-            const [inverted, setInverted]=React.useState(false);
-            const onChange = (event) => {
-                setAmount(event.target.value);
-            };
-            const reset = () => {
-                setAmount(0);
-            }
-            const onInvert = () => {
-                setInverted((current)=>!current);//false<->true로 바꾸는 함수
-                reset();
-            };
+        function Btn({inner, big}){
+            //받는 props의 이름은 맘대로 정할 수 잇음!, 보통 props로..
+            //이렇게 props의 이름을 nanana로 정해서 받거나, 그냥 {inner} 객체 자체로 받아와서 {nanana.inner}이 아닌 {inner}로 바로 사용도 가능.
             return (
-                <div>
-                    <div>
-                        <label htmlFor="minutes">Minutes </label>
-                        <input 
-                            value={inverted ? amount*60 : amount}
-                            id="minutes" 
-                            placeholder="Minutes" 
-                            type="number"
-                            //우리는 input값(value)이 바뀔때마다 state를 업데이트하고싶을 때 밑 코드를 사용.
-                            onChange={onChange}
-                            disabled={inverted}//disabled{fripped===true}
-                        />
-                    </div>
-                    <div>
-                        <label htmlFor="hours">Hours </label>
-                        <input 
-                            value={inverted ? amount: Math.round(amount/60)} //만약 flipped이 true라면 minute을 보여주고, false라면 뒤에 변환된 값을 보여줌.
-                            id="hours" 
-                            placeholder="Hours" 
-                            type="number"
-                            onChange={onChange}
-                            disabled={!inverted}//disabled={fripped===false}
-                            //만약에 flipped가 false라면 disabled를 해준다.
-                        />
-                    </div>
-                    <button onClick={reset} >Reset</button>
-                    <button onClick={onInvert}>{inverted ? "put hour" : "put min"}</button>
-                </div>
-            );
-        }        
-        function KmToMiles(){
-            const [amount, setAmount]=React.useState();
-            const [inverted, setInverted]=React.useState(false);
-            const onChange = (event) => {
-                setAmount(event.target.value);
-            };
-            const reset = () => {
-                setAmount(0);
-            }
-            const onInvert = () => {
-                setInverted((current)=>!current);//false<->true로 바꾸는 함수
-                reset();
-            };
-            return (
-                <div>
-                    <div>
-                        <label htmlFor="km"> Km </label>
-                        <input 
-                            value={inverted ? Math.amount/0.621371 : amount}
-                            id="km" 
-                            placeholder="Km" 
-                            type="number"
-                            //우리는 input값(value)이 바뀔때마다 state를 업데이트하고싶을 때 밑 코드를 사용.
-                            onChange={onChange}
-                            disabled={inverted}//disabled{fripped===true}
-                        />
-                    </div>
-                    <div>
-                        <label htmlFor="miles"> Miles </label>
-                        <input 
-                            value={inverted ? amount: amount*0.621371}//만약 flipped이 true라면 minute을 보여주고, false라면 뒤에 변환된 값을 보여줌.
-                            id="miles" 
-                            placeholder="Miles" 
-                            type="number"
-                            onChange={onChange}
-                            disabled={!inverted}//disabled={fripped===false}
-                            //만약에 flipped가 false라면 disabled를 해준다.
-                        />
-                    </div>
-                    <button onClick={reset} >Reset</button>
-                    <button onClick={onInvert}>{inverted ? "put miles" : "put Km"}</button>
-                </div>
-            );
+            <button
+                style={{
+                    backgroundColor: "tomato",
+                    color: "white",
+                    padding: "10px 20px",
+                    border: 0,
+                    borderRadius: 10,
+                    fontSize : big ? 18 : 16,//이렇게 if문 사용해서 디자인 두개로 나눌수도 있음!
+                }}
+            >
+                {inner}
+            </button>);
         }
         function App() {    
-            const [index, setIndex] = React.useState("xx");
-            const onSelect = (event) => {
-                setIndex(event.target.value);
-            };
             return (
                 <div>
-                    <h1>Super Converter</h1>
-                    <select value={index} onChange={onSelect}>
-                        <option value="xx"> Select your units </option>
-                        <option value="0"> Minutes & Hours </option>
-                        <option value="1"> Km & Miles </option>
-                    </select>
-                    <hr/>
-                    {index ==="xx"? "Please select your units": null}
-                    {index === "0"? <MinutesToHours/>:null}
-                    {index === "1"? <KmToMiles/>:null}
+                    <Btn inner="Save Changes" big={true}/> 
+                    <Btn inner="Continue" big={false}/>
                 </div>
             );
         }
+        //위 방식처럼 컴포넌트를 불러오는 것을 함수형컴포넌트라고 한다.
             
         /*
-        <#3.9 Final Practice and Recap>
-        - event이용하는거 잘 보기 line 59
-        - React.useState응용 확인하기
-        - select으로 고른 뒤에 자연스럽게 UI 넘어가도록 하는 페이지
+        <#4.0 Props>
+        - Props: 부모 컴포넌트로부터 자식 컴포넌트에 데이터를 보낼 수 있게 해주는 방법.
+        - 만들고자하는 value의 값도 내가 맘대로 inner이라고 정할 수 있음 !
         */ 
         const root = document.getElementById("root");
         ReactDOM.render(<App/>, root);
