@@ -1,49 +1,48 @@
 <!DOCTYPE html>
-<html></html>
+<html>
     <body>
         <div id="root"></div>
     </body>
-    <script src="https://unpkg.com/react@17.0.2/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react@17.0.2/umd/react.development.js"></script>
     <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://unpkg.com/prop-types@15.7.2/prop-types.js"></script>
     <script type="text/babel">
-        function Btn({inner, changeValue}){
+        function Btn({inner, fontSize = 16}){
             console.log(inner,"was rendered");
-            //받는 props의 이름은 맘대로 정할 수 잇음!, 보통 props로..
-            //이렇게 props의 이름을 nanana로 정해서 받거나, 그냥 {inner} 객체 자체로 받아와서 {nanana.inner}이 아닌 {inner}로 바로 사용도 가능.
+            //받는 props의 초기값을 정할 수 있음. (만약 값이 들어오지않았다면 14로 된다는 뜻)
             return (
             <button
-                onClick = {changeValue}
                 style={{
                     backgroundColor: "tomato",
                     color: "white",
                     padding: "10px 20px",
                     border: 0,
                     borderRadius: 10,
-                    fontSize: 16,//이렇게 if문 사용해서 디자인 두개로 나눌수도 있음!
+                    fontSize,//fontSize : fontSize라서 하나만 써줄 수 있나바 ㅏ.. 
                 }}
             >
                 {inner}
-            </button>);
+            </button>
+            );
         }
-        const MemorizedBtn = React.memo(Btn);
+        Btn.propTypes = {
+            inner: PropTypes.string.isRequired,//isRequired를 붙여주면 number값을 가지는 inner은 반드시 존재해야한다. 지만, 우리가 props를 명명해주지 않았을 경우 경고가 뜬다. 
+            fontSize: PropTypes.number.isRequired,
+        }
         function App() {    
-            const [value, setValue] = React.useState("Save Changes");
-            const changeValue = () => setValue("Revert Changes");
             return (
                 <div>
-                    <Btn inner={value} changeValue={changeValue}/> 
-                    <Btn inner="Continue" />
+                    <Btn inner="Save Change" fontSize={16} /> 
+                    <Btn inner={"Continue"} />
                 </div>
             );
         }    
         /*
-        <#4.1 Memo>
-        - props로 function도 보내줄 수 있음.
-        - Btn 컴포넌트에서 onClick은 이벤트리스너가 아니라, 그냥 내가 만든 props다.
-        - 이벤트리스너이기 위해서는 나의 컴포넌트가 아닌, HTML 태그 속 이벤트여야함!
-        - 리렌더링 될 때 우리가 만든 컴포넌트가 모두 다 다시 리렌더링 되지만, Memo를 이용하여 렌더링이 안되고싶은 컴포넌트를 설정할 수 있다.(props가 변경되지않는선에서)
-            + 첫 Btn은 inner의 props가 변경되므로 Memo 사용 못함. //사용 참고 line 29
+        <#4.2 Prop Types>
+        - propTypes 사용하기 위해서는 scpript src를 이용하여 머 설치해줘야함. 
+        - line 29부터 보면 컴포넌트name.propTyep = { <statename: PropTypes.원하는형식> } 으로 정해줄 수 있음. 
+        - PropTypes뒤에 .isRequired를 붙여주면 이 props는 반드시 지정되어야함을 명시 line30의 주석참고
         */ 
         const root = document.getElementById("root");
         ReactDOM.render(<App/>, root);
